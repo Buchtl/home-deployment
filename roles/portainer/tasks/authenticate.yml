@@ -1,0 +1,16 @@
+- name: Authenticate to Portainer API
+  uri:
+    validate_certs: false
+    url: "{{ portainer_api_url }}/auth"
+    method: POST
+    body_format: json
+    body:
+      Username: "{{ portainer_admin_user }}"
+      Password: "{{ portainer_admin_password }}"
+    return_content: true
+    status_code: 200
+  register: portainer_login
+
+- set_fact:
+    portainer_token: "{{ portainer_login.json.jwt }}"
+

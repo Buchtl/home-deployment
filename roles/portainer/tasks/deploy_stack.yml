@@ -1,0 +1,49 @@
+# Deploy a Docker stack to a specified Portainer endpoint using the Portainer API.
+#
+# Expected variables:
+# - portainer_host:             (string) The hostname or IP address where Portainer API is reachable (e.g. "pi4b")
+# - portainer_token:            (string) Authentication JWT token for Portainer API access
+# - portainer_endpoint_id:      (integer) The ID of the Portainer endpoint where the stack will be deployed
+# - stack_name:                 (string) Name to assign to the deployed stack (e.g. "charger")
+# - portainer_swarm_id          (string) Swarm id of the target swarm
+# - repositoryURL               (string) git url e.g. "https://github.com/Buchtl/charger-deployment.git"
+# - repositoryReferenceName     (string) e.g. "refs/heads/portainer"
+# - composeFile:                (string) e.g. "stacks/postgres-stack.yml"
+# - stack_env:                  (list of dict) Environment variables to pass to the stack, format:
+#                              - name: "VAR_NAME"
+#                                value: "value"
+#
+# Note:
+# - The API expects 'endpointId' as query parameter.
+
+- name: Include swarm_id to find swarm_id of target
+  include_tasks: swarm_id.yml
+
+- name: Deploy stack '{{ stack_name }}' from Git repository to Portainer
+  uri:
+    validate_certs: false
+    url: "{{ portainer_api_url }}/stacks/create/swarm/repository?endpointId={{ portainer_endpoint_id }}"
+    method: POST
+    headers:
+      Authorization: "Bearer {{ portainer_token }}"
+      Content-Type: "application/json"
+    body_format: json
+    body:
+      name: "{{ stack_name }}"
+      swarmID: "{{ portainer_swarm_id }}"
+      repositoryURL: "{{ repositoryURL }}"
+      repositoryReferenceName: "{{ repositoryReferenceName | default('refs/heads/main') }}"
+      composeFile: "{{ composeFile }}"
+      repositoryAuthentication: false
+      repositoryUsername: ""
+      repositoryPassword: ""
+      tlsskipVerify: true
+      autoUpdate:
+        forcePullImage: false
+        forceUpdate: false
+        interval: "1m30s"
+        jobID: ""
+        webhook: ""
+      env: "{{ stack_env | default(omit) }}"
+      fromAppTemplate: false 
+  register: deploy_stack_result

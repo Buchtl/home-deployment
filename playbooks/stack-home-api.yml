@@ -1,0 +1,28 @@
+
+- name: Deploy stack home-api via Portainer API
+  hosts: localhost
+  vars:
+    stack_name: charger-base
+    portainer_endpoint_name: charger
+    repositoryURL: "https://github.com/Buchtl/home-api.git"
+    repositoryReferenceName: "{{ git_default_branch }}"
+    composeFile: "docker/docker-compose.yml"
+    stack_env:
+      - name: "BASE_VERSION"
+        value: "0.1"
+      - name: "CHARGER_BASE_ARCH"
+        value: "ARM64"
+      - name: "DB_URL"
+        value: "postgres"
+      - name: "DB_PORT"
+        value: "5432"   
+      - name: "DB_USER"
+        value: "{{ postgres_home_user }}"
+      - name: "DB_PASS"
+        value: "{{ postgres_home_password }}"
+      - name: "DB_NAME"
+        value: "{{ postgres_home_user }}"
+  tasks:
+    - include_tasks: ../roles/portainer/tasks/authenticate.yml
+    - include_tasks: ../roles/portainer/tasks/endpoint_id.yml
+    - include_tasks: ../roles/portainer/tasks/deploy_stack.yml

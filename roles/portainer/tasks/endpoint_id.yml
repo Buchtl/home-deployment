@@ -1,0 +1,33 @@
+
+# roles/portainer/tasks/endpoint_id.yml
+#
+# Task: Lookup Portainer endpoint ID
+# 
+# Expects:
+#   portainer_endpoint_name (string): The name of the Portainer endpoint to search for.
+# 
+# Sets:
+#   portainer_endpoint_id (int): The ID of the matched endpoint, used for stack deployment.
+#
+# Example:
+#   - include_tasks: roles/portainer/tasks/endpoint_id.yml
+#     vars:
+#       portainer_endpoint_name: charger
+#
+
+- name: Get list of Portainer endpoints
+  uri:
+    validate_certs: false
+    url: "{{ portainer_api_url }}/endpoints"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ portainer_token }}"
+    return_content: true
+  register: portainer_endpoints
+
+- name: Set endpoint ID for 'charger'
+  set_fact:
+    portainer_endpoint_id: >-
+      {{
+        (portainer_endpoints.json | selectattr('Name', 'equalto', portainer_endpoint_name) | list | first).Id
+      }}
