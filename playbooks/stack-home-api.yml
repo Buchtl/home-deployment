@@ -13,7 +13,7 @@
       - name: "BASE_ARCH"
         value: "ARM64"
       - name: "DB_URL"
-        value: "postgres"
+        value: "pi4b"
       - name: "DB_PORT"
         value: "5432"   
       - name: "DB_USER"
