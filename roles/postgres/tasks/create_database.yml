@@ -1,0 +1,14 @@
+---
+- name: Database Create
+  debug:
+    msg: "Creating {{ database_name }} with owner {{ database_owner }}"
+
+- name: Ensure the PostgreSQL database exists
+  community.postgresql.postgresql_db:
+    name: "{{ database_name }}"
+    owner: "{{ database_owner }}"
+    login_user: "{{ postgres_admin_user }}"
+    login_password: "{{ postgres_admin_password }}"
+    login_host: "{{ postgres_host }}"
+    port: 5432
+    state: present

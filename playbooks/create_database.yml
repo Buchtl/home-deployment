@@ -1,0 +1,13 @@
+---
+- name: Create database for charger
+  hosts: localhost
+  vars:
+    # New User
+    postgres_new_user: "{{ postgres_home_user }}"
+    postgres_new_user_password: "{{ postgres_home_password }}"
+    # DB with new user as owner
+    database_name: "{{ postgres_home_user }}"
+    database_owner: "{{ postgres_home_password }}"
+  tasks:
+    - include_tasks: ../roles/postgres/tasks/create_user.yml
+    - include_tasks: ../roles/postgres/tasks/create_database.yml

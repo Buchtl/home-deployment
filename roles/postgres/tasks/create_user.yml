@@ -1,0 +1,14 @@
+---
+- name: Database Database User
+  debug:
+    msg: "Creating {{ postgres_new_user }}"
+
+- name: Ensure the database user exists
+  community.postgresql.postgresql_user:
+    name: "{{ postgres_new_user }}"
+    password: "{{ postgres_new_user_password }}"
+    login_user: "{{ postgres_admin_user }}"
+    login_password: "{{ postgres_admin_password }}"
+    login_host: "{{ postgres_host }}"
+    port: 5432
+    state: present
