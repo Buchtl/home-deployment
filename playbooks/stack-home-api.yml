@@ -10,7 +10,7 @@
     stack_env:
       - name: "BASE_VERSION"
         value: "0.1"
-      - name: "CHARGER_BASE_ARCH"
+      - name: "BASE_ARCH"
         value: "ARM64"
       - name: "DB_URL"
         value: "postgres"
