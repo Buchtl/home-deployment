@@ -2,7 +2,7 @@
 - name: Deploy stack home-api via Portainer API
   hosts: localhost
   vars:
-    stack_name: charger-base
+    stack_name: home-api
     portainer_endpoint_name: charger
     repositoryURL: "https://github.com/Buchtl/home-api.git"
     repositoryReferenceName: "{{ git_default_branch }}"
