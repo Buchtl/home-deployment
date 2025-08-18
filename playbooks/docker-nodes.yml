@@ -2,11 +2,13 @@
 - name: Get swarm token
   hosts: swarm_manager
   become: true
+  gather_facts: false
   tasks:
     - include_tasks: ../roles/swarm/tasks/get_swarm_token.yml
 
 - name: join nodes
   hosts: swarm_nodes
   become: true
+  gather_facts: false
   tasks:
     - include_tasks: ../roles/swarm/tasks/join_node.yml
