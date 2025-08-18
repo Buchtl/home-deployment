@@ -1,0 +1,6 @@
+
+- name: Join worker nodes to swarm
+  ansible.builtin.command: >
+    docker swarm join --token {{ worker_token.stdout }}
+    {{ hostvars.swarm_manager.ansible_host }}:2377
+  when: inventory_hostname in groups['workers']

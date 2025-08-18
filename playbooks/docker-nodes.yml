@@ -1,0 +1,6 @@
+---
+- name: Host setup
+  hosts: swarm_manager
+  become: true
+  tasks:
+    - include_tasks: ../roles/swarm/tasks/get_swarm_token.yml
