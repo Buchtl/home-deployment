@@ -1,0 +1,7 @@
+---
+- name: Prepare host
+  hosts: jenkins
+  become: true
+  gather_facts: false
+  tasks:
+    - include_tasks: ../roles/jenkins/tasks/setup.yml
