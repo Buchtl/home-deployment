@@ -13,7 +13,7 @@ services:
     deploy:
       placement:
         constraints:
-          - node.labels.database == true
+          - node.labels.nexus == true
 
 volumes:
   db_data:
