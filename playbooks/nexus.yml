@@ -1,0 +1,7 @@
+---
+- name: Prepare host
+  hosts: nexus
+  become: true
+  gather_facts: false
+  tasks:
+    - include_tasks: ../roles/nexus/tasks/setup.yml
