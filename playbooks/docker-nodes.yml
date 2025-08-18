@@ -1,0 +1,25 @@
+---
+- name: Get swarm token
+  hosts: swarm_manager
+  become: true
+  gather_facts: false
+  tasks:
+    - include_tasks: ../roles/swarm/tasks/get_swarm_token.yml
+
+- name: join nodes
+  hosts: swarm_nodes
+  become: true
+  gather_facts: false
+  tasks:
+    - include_tasks: ../roles/swarm/tasks/join_node.yml
+
+- hosts: swarm_manager
+  gather_facts: no
+  tasks:
+    - name: Label nexus nodes
+      community.docker.docker_node:
+        hostname: "{{ hostvars[item].inventory_hostname }}"
+        labels_state: merge
+        labels:
+          nexus: "true"
+      loop: "{{ groups['nexus'] }}"

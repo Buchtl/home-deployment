@@ -1,0 +1,26 @@
+---
+- name: Prepare host
+  hosts: nexus
+  become: true
+  gather_facts: false
+  tasks:
+    - include_tasks: ../roles/nexus/tasks/setup.yml
+
+
+- name: Deploy stack nexus via Portainer API
+  hosts: localhost
+  vars:
+    stack_name: nexus
+    portainer_endpoint_name: charger
+    repositoryURL: "https://github.com/Buchtl/home-deployment.git"
+    repositoryReferenceName: "refs/heads/cicd"
+    composeFile: "stacks/nexus-stack.yml"
+    stack_env:
+      - name: "USER_UID"
+        value: "{{ home_uid }}"
+      - name: "USER_GID"
+        value: "{{ home_gid }}"
+  tasks:
+    - include_tasks: ../roles/portainer/tasks/authenticate.yml
+    - include_tasks: ../roles/portainer/tasks/endpoint_id.yml
+    - include_tasks: ../roles/portainer/tasks/deploy_stack.yml

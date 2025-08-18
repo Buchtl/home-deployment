@@ -1,0 +1,14 @@
+---
+- name: Create group with specific GID
+  ansible.builtin.group:
+    name: "{{ home_group }}"
+    gid: "{{ home_gid }}"
+    state: present
+
+- name: Create user with specific UID and GID
+  ansible.builtin.user:
+    name: "{{ home_user }}"
+    uid: "{{ home_uid }}"
+    group: "{{ home_group }}"
+    shell: /bin/bash
+    state: present

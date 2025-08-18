@@ -1,0 +1,12 @@
+---
+- name: Get worker join token
+  ansible.builtin.command: docker swarm join-token -q worker
+  register: worker_token
+
+- name: Share worker token
+  ansible.builtin.set_fact:
+    swarm_worker_token: "{{ worker_token.stdout }}"
+
+- name: Print token
+  debug:
+    msg: "swarm_worker_token is {{ swarm_worker_token }}"

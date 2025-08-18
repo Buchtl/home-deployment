@@ -1,0 +1,21 @@
+# portainer
+portainer_host: "pi4b"
+portainer_api_url: "https://{{ portainer_host  }}:9443/api"
+portainer_endpoint_name: charger
+#portainer_version: "2.32.0"
+
+# kecloak
+#keycloak_host: "{{ hostvars[inventory_hostname].ansible_default_ipv4.address }}"
+
+# grafana
+#grafana_host: "{{ hostvars[inventory_hostname].ansible_default_ipv4.address }}"
+
+
+
+# postgres
+#postgres_version: "17.5"
+#postgres_host: "{{ hostvars[inventory_hostname].ansible_default_ipv4.address }}"
+postgres_host: "pi4b"
+
+# e.g. "refs/heads/main" or "refs/heads/refactor"
+git_default_branch: "refs/heads/database"

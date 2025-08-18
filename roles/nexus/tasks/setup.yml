@@ -1,0 +1,9 @@
+---
+- name: Create /srv/nexus/data directory with specific ownership
+  become: true
+  file:
+    path: /srv/nexus/data
+    state: directory
+    owner: "{{ home_user }}"
+    group: "{{ home_user | default(home_user) }}"
+    mode: '0755'

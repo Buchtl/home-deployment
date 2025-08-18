@@ -1,0 +1,12 @@
+---
+
+- name: Remove user myuser
+  ansible.builtin.user:
+    name: "{{ charger_user }}"
+    state: absent
+    remove: true
+
+- name: Remove group mygroup
+  ansible.builtin.group:
+    name: "{{ charger_group }}"
+    state: absent
