@@ -1,0 +1,6 @@
+- name: Host setup
+  hosts: swarm_nodes
+  become: true
+  tasks:
+    - include_tasks: ../roles/common/tasks/create_users.yml
+    - include_tasks: ../roles/common/tasks/setup_docker.yml

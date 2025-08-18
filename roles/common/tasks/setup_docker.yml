@@ -1,0 +1,23 @@
+---
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: present
+    update_cache: true
+
+- name: Add user to docker group
+  user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes
+
+- name: Enable and start Docker
+  systemd:
+    name: docker
+    enabled: true
+    state: started
+
+- name: Initialize Docker Swarm (if not already)
+  shell: |
+    docker info | grep -q 'Swarm: active' || docker swarm init
+
