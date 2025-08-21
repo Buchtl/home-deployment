@@ -22,7 +22,7 @@
               labels:
                 nodename: "pi4b"
             - targets: ["pi4:9100"]
-              lables:
+              labels:
                 nodename: "pi4"
             - targets: ["pi5b-1:9100"]
               labels:
