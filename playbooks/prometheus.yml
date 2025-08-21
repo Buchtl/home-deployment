@@ -1,0 +1,40 @@
+---
+#- name: Install Prometheus
+#  hosts: swarm
+#  become: true
+#  vars:
+#    prometheus_version: "3.5.0"
+#    prometheus_arch_map:
+#      x86_64: amd64
+#      aarch64: arm64
+#    prometheus_base_dir: /opt
+#  tasks:
+#    - include_tasks: ../roles/prometheus/tasks/install.yml
+#
+#- name: Install Servic3
+#  hosts: swarm
+#  become: true
+#  vars:
+#    prometheus_base_dir: /opt
+#  tasks:
+#    - include_tasks: ../roles/prometheus/tasks/systemd_service.yml
+
+- name: Prometheus config
+  hosts: swarm_manager
+  tasks:
+    - include_tasks: ../roles/prometheus/tasks/docker_config.yml
+
+#- name: Deploy stack Prometheus via Portainer API
+#  hosts: localhost
+#  vars:
+#    "USER_UID": "{{ home_uid }}"
+#    "USER_GID": "{{ home_uid }}"
+#    stack_name: prometheus
+#    portainer_endpoint_name: charger
+#    repositoryURL: "https://github.com/Buchtl/charger-deployment.git"
+#    repositoryReferenceName: "{{ git_default_branch }}"
+#    composeFile: "stacks/prometheus-stack.yml"
+#  tasks:
+#    - include_tasks: ../roles/portainer/tasks/authenticate.yml
+#    - include_tasks: ../roles/portainer/tasks/endpoint_id.yml
+#    - include_tasks: ../roles/portainer/tasks/deploy_stack.yml

@@ -1,0 +1,31 @@
+---
+- name: Remove existing prometheus_config from Docker Swarm
+  community.docker.docker_config:
+    name: prometheus_config
+    state: absent
+
+- name: Create Docker Swarm config from inline content
+  community.docker.docker_config:
+    name: prometheus_config
+    data: |
+      global:
+        scrape_interval: 15s
+      
+      scrape_configs:
+        - job_name: "prometheus"
+          static_configs:
+            - targets: ["localhost:9090"]
+      
+        - job_name: "node-exporter"
+          static_configs:
+            - targets: ["pi4b:9100"]
+              labels:
+                nodename: "pi4b"
+            - targets: ["pi4:9100"]
+              lables:
+                nodename: "pi4"
+            - targets: ["pi5b-1:9100"]
+              labels:
+                nodename: "pi5b-1"
+
+    force: true

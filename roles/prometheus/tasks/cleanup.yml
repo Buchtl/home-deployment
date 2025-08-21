@@ -1,0 +1,31 @@
+---
+#- name: Stop Prometheus service
+#  ansible.builtin.systemd:
+#    name: prometheus
+#    state: stopped
+#    enabled: false
+#
+#- name: Remove Prometheus systemd unit file
+#  ansible.builtin.file:
+#    path: /etc/systemd/system/prometheus.service
+#    state: absent
+#
+#- name: Reload systemd daemon
+#  ansible.builtin.systemd:
+#    daemon_reload: true
+#
+#- name: Delete dir postgres
+#  file:
+#    path: "/opt/prometheus"
+#    state: absent
+#
+#- name: Remove user myuser
+#  ansible.builtin.user:
+#    name: "prometheus"
+#    state: absent
+#    remove: true
+#
+#- name: Remove group mygroup
+#  ansible.builtin.group:
+#    name: "prometheus"
+#    state: absent
