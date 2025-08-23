@@ -1,0 +1,20 @@
+---
+- name: Nginx config
+  hosts: swarm_manager
+  tasks:
+    - include_tasks: ../roles/nginx/tasks/docker_config.yml
+
+- name: Deploy stack Prometheus via Portainer API
+  hosts: localhost
+  vars:
+    "USER_UID": "{{ home_uid }}"
+    "USER_GID": "{{ home_uid }}"
+    stack_name: nginx
+    portainer_endpoint_name: charger
+    repositoryURL: "https://github.com/Buchtl/home-deployment.git"
+    repositoryReferenceName: "{{ git_default_branch }}"
+    composeFile: "stacks/nginx-stack.yml"
+  tasks:
+    - include_tasks: ../roles/portainer/tasks/authenticate.yml
+    - include_tasks: ../roles/portainer/tasks/endpoint_id.yml
+    - include_tasks: ../roles/portainer/tasks/deploy_stack.yml
