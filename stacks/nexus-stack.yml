@@ -10,6 +10,8 @@ services:
        - /srv/nexus/data:/nexus-data
     ports:
       - "8081:8081"
+    networks:
+      - home-net
     deploy:
       placement:
         constraints:
@@ -18,3 +20,7 @@ services:
 volumes:
   db_data:
     driver: local
+
+networks:
+  home-net:
+    external: true
