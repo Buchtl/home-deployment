@@ -4,5 +4,5 @@
     hostname: "{{ hostvars[item].inventory_hostname }}"
     labels_state: merge
     labels:
-      "{{ node_label }}": "true"
+      "{{ { (node_label): 'true' } }}"
   loop: "{{ groups[node_name] }}"

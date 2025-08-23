@@ -7,20 +7,20 @@
     - include_tasks: ../roles/jenkins/tasks/setup.yml
 
 
-- name: Deploy stack jenkins via Portainer API
-  hosts: localhost
-  vars:
-    stack_name: jenkins
-    portainer_endpoint_name: charger
-    repositoryURL: "https://github.com/Buchtl/home-deployment.git"
-    repositoryReferenceName: "{{ git_default_branch }}"
-    composeFile: "stacks/jenkins-stack.yml"
-    stack_env:
-      - name: "USER_UID"
-        value: "{{ home_uid }}"
-      - name: "USER_GID"
-        value: "{{ home_gid }}"
-  tasks:
-    - include_tasks: ../roles/portainer/tasks/authenticate.yml
-    - include_tasks: ../roles/portainer/tasks/endpoint_id.yml
-    - include_tasks: ../roles/portainer/tasks/deploy_stack.yml
+#- name: Deploy stack jenkins via Portainer API
+#  hosts: localhost
+#  vars:
+#    stack_name: jenkins
+#    portainer_endpoint_name: charger
+#    repositoryURL: "https://github.com/Buchtl/home-deployment.git"
+#    repositoryReferenceName: "{{ git_default_branch }}"
+#    composeFile: "stacks/jenkins-stack.yml"
+#    stack_env:
+#      - name: "USER_UID"
+#        value: "{{ home_uid }}"
+#      - name: "USER_GID"
+#        value: "{{ home_gid }}"
+#  tasks:
+#    - include_tasks: ../roles/portainer/tasks/authenticate.yml
+#    - include_tasks: ../roles/portainer/tasks/endpoint_id.yml
+#    - include_tasks: ../roles/portainer/tasks/deploy_stack.yml
