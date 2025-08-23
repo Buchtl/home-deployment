@@ -47,7 +47,11 @@
             proxy_set_header X-Forwarded-Proto $scheme;
           }
         }
-
+        server {
+          listen 8081;
+          server_name _;
+          return 301 https://$host:8443$request_uri;
+        }
         server {
           listen 8443 ssl;
           server_name _;
