@@ -11,6 +11,8 @@
       events {}
       
       http {
+        # Max length of request line (e.g., GET /path?query=...)
+        large_client_header_buffers 8 16k;
         # Increase buffer for large headers
         proxy_buffers 16 64k;
         proxy_buffer_size 128k;

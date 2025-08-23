@@ -1,0 +1,10 @@
+---
+- name: Delete stack nginx via Portainer API
+  hosts: localhost
+  vars:
+    stack_name: nginx
+  tasks:
+    - include_tasks: ../roles/portainer/tasks/authenticate.yml
+    - include_tasks: ../roles/portainer/tasks/endpoint_id.yml
+    - include_tasks: ../roles/portainer/tasks/stack_id.yml
+    - include_tasks: ../roles/portainer/tasks/delete_stack.yml

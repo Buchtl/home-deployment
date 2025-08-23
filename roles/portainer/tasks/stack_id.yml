@@ -1,0 +1,22 @@
+
+
+- name: Get list of Portainer endpoints
+  uri:
+    validate_certs: false
+    url: "{{ portainer_api_url }}/stacks"
+    method: GET
+    headers:
+      Authorization: "Bearer {{ portainer_token }}"
+    return_content: true
+  register: portainer_endpoints
+
+- name: Set endpoint ID for "{{ stack_name }}"
+  set_fact:
+    portainer_stack_id: >-
+      {{
+        (portainer_endpoints.json | selectattr('Name', 'equalto', stack_name) | list | first).Id
+      }}
+
+- name: Print stack id of "{{ stack_name }}"
+  debug:
+    msg: "Id for {{ stack_name }} is {{ portainer_stack_id }}"
