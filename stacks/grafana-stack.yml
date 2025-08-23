@@ -6,9 +6,6 @@ services:
     depends_on:
       - keycloak_keycloak
     user: "${USER_UID}:${USER_GID}"
-    secrets:
-      - cert_key
-      - cert
     environment:
       - GF_LOG_FILTERS=provisioning.dashboard:debug
       - GF_INSTALL_PLUGINS=yesoreyeram-infinity-datasource
@@ -21,7 +18,7 @@ services:
       # Keycloak
       - GF_SERVER_PROTOCOL=http
       - GF_SERVER_HTTP_PORT=3000
-      - GF_SERVER_ROOT_URL=https://${GRAFANA_HOSTNAME}:${GRAFANA_PORT}
+      - GF_SERVER_ROOT_URL=http://${GRAFANA_HOSTNAME}:${GRAFANA_PORT}/grafana
       #- GF_SERVER_CERT_FILE=/run/secrets/cert
       #- GF_SERVER_CERT_KEY=/run/secrets/cert_key
       - GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH=${GRAFANA_ROLE_MAPPING}
@@ -35,8 +32,6 @@ services:
       - GF_AUTH_GENERIC_OAUTH_AUTH_URL=https://${KC_HOSTNAME}:${KC_PORT}/realms/charger/protocol/openid-connect/auth
       - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=https://${KC_HOSTNAME}:${KC_PORT}/realms/charger/protocol/openid-connect/token
       - GF_AUTH_GENERIC_OAUTH_API_URL=https://${KC_HOSTNAME}:${KC_PORT}/realms/charger/protocol/openid-connect/userinfo
-    #ports:
-    #  - "${GRAFANA_PORT}:3000"
     volumes:
         - /srv/grafana/data/:/var/lib/grafana
     networks:
@@ -54,12 +49,6 @@ services:
           - node.labels.database == true
       restart_policy:
         condition: on-failure
-
-secrets:
-  cert:
-    external: true
-  cert_key:
-    external: true
 
 networks:
   home-net:
