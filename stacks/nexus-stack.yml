@@ -5,7 +5,7 @@ services:
     image: "sonatype/nexus3:3.78.3"
     user: "${USER_UID}:${USER_GID}"
     environment:
-      NEXUS_CONTEXT: "/"
+      NEXUS_CONTEXT: "/nexus"
     volumes:
        - /srv/nexus/data:/nexus-data
     ports:
