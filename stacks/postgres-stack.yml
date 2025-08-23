@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: "postgres:${POSTGRES_VERSION}-alpine"
+    user: "${USER_UID}:${USER_GID}"
+    environment:
+      POSTGRES_USER: "${postgres_admin_user}"
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    volumes:
+       - /srv/postgres/data/:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    deploy:
+      placement:
+        constraints:
+          - node.labels.database == true
+    networks:
+      - home-net
+    secrets:
+      - postgres_password
+    #healthcheck:
+    #  test: ["CMD-SHELL", "pg_isready -U $$postgres_admin_user -d $$postgres"]
+    #  interval: 10s
+    #  timeout: 5s
+    #  retries: 5
+    #  start_period: 30
+
+secrets:
+  postgres_password:
+    external: true
+
+volumes:
+  db_data:
+    driver: local
+
+networks:
+  home-net:
+    external: true

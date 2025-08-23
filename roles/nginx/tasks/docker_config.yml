@@ -1,0 +1,71 @@
+---
+- name: Remove existing nginx_config from Docker Swarm
+  community.docker.docker_config:
+    name: nginx_config
+    state: absent
+
+- name: Create Docker Swarm config from inline content
+  community.docker.docker_config:
+    name: nginx_config
+    data: |
+      events {}
+      
+      http {
+        # redirect all http -> https
+        server {
+          listen 80;
+          server_name _;
+          return 301 https://$host$request_uri;
+        }
+      
+        # https with one cert
+        server {
+          listen 443 ssl;
+          server_name _;
+      
+          ssl_certificate     /run/secrets/cert;
+          ssl_certificate_key /run/secrets/cert_key;
+
+          # Jenkins on /jenkins
+          location /jenkins {
+              proxy_pass          http://jenkins:8080/jenkins/;
+              proxy_set_header    Host $host;
+              proxy_set_header    X-Real-IP $remote_addr;
+              proxy_set_header    X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header    X-Forwarded-Proto $scheme;
+      
+              # Handle redirects correctly
+              proxy_redirect      http://jenkins:8080/jenkins/ /jenkins/;
+          }
+      
+          # Grafana
+          location /grafana/ {
+            proxy_pass http://grafana:3000/;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+          }
+        }
+        server {
+          listen 8081;
+          server_name _;
+          return 301 https://$host:8443$request_uri;
+        }
+        server {
+          listen 8443 ssl;
+          server_name _;
+
+          ssl_certificate     /run/secrets/cert;
+          ssl_certificate_key /run/secrets/cert_key;
+
+          location / {
+              proxy_pass http://nexus:8081/;
+              proxy_set_header Host $host;
+              proxy_set_header X-Real-IP $remote_addr;
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header X-Forwarded-Proto $scheme;
+          }
+        }
+      }
+    force: true

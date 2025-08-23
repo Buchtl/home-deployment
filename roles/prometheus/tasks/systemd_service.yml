@@ -1,0 +1,43 @@
+---
+- name: Ensure Prometheus data dir exists
+  ansible.builtin.file:
+    path: "{{ prometheus_base_dir }}/prometheus/data"
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+
+- name: Create systemd service for Prometheus
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/prometheus.service
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
+      [Unit]
+      Description=Prometheus
+      Wants=network-online.target
+      After=network-online.target
+
+      [Service]
+      User=prometheus
+      Group=prometheus
+      ExecStart={{ prometheus_base_dir }}/prometheus/prometheus \
+        --config.file=/{{ prometheus_base_dir }}/prometheus/prometheus.yml \
+        --storage.tsdb.path=/{{ prometheus_base_dir }}/prometheus/data \
+        --web.listen-address=:9090 \
+        --web.enable-lifecycle
+      Restart=always
+
+      [Install]
+      WantedBy=multi-user.target
+
+- name: Reload systemd so Prometheus service is recognized
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Enable and start Prometheus
+  ansible.builtin.systemd:
+    name: prometheus
+    enabled: true
+    state: started

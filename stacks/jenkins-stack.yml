@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  jenkins:
+    image: "jenkins/jenkins:lts-jdk21"
+    user: "${USER_UID}:${USER_GID}"
+    environment:
+      NEXUS_CONTEXT: "/"
+      JENKINS_OPTS: "--prefix=/jenkins"
+    volumes:
+       - /srv/jenkins/jenkins_home:/var/jenkins_home
+       - /var/run/docker.sock:/var/run/docker.sock  # optional: if Jenkins needs to run docker
+    ports:
+      - "50000:50000" # Jenkins agent TCP port
+    networks:
+      - home-net
+    deploy:
+      placement:
+        constraints:
+          - node.labels.jenkins == true
+
+networks:
+  home-net:
+    external: true

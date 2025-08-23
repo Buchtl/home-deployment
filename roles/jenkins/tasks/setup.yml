@@ -1,0 +1,9 @@
+---
+- name: Create /srv/jenkins/jenkins_home directory with specific ownership
+  become: true
+  file:
+    path: /srv/jenkins/jenkins_home
+    state: directory
+    owner: "{{ home_user }}"
+    group: "{{ home_user | default(home_user) }}"
+    mode: '0755'
