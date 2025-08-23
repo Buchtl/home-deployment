@@ -7,7 +7,7 @@ services:
     environment:
       NEXUS_CONTEXT: "/"
     volumes:
-       - /srv/jenkins/jenkin_home:/var/jenkins_home
+       - /srv/jenkins/jenkins_home:/var/jenkins_home
        - /var/run/docker.sock:/var/run/docker.sock  # optional: if Jenkins needs to run docker
     ports:
       - "8082:8080"
