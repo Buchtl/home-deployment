@@ -24,7 +24,7 @@
       - name: "GRAFANA_HOSTNAME"
         value: "{{ grafana_host }}/grafana"
       - name: "GRAFANA_PORT"
-        value: "8443"
+        value: "443"
       - name: "KC_CLIENT_SECRET_GRAFANA"
         value: "p4ZufcYZsDMzFejfjU8AKhlFWO1267M5"
       - name: "KC_HOSTNAME"
