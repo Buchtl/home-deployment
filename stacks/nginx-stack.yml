@@ -10,7 +10,7 @@ services:
       - cert_key
       - cert
     configs:
-      - source: nignx_config
+      - source: nginx_config
         target: /etc/nginx/nginx.conf
         mode: 0444
     networks:
@@ -21,7 +21,6 @@ services:
       placement:
         constraints:
           - node.labels.nginx == true
-
 
 configs:
   nginx_config:
