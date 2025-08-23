@@ -13,7 +13,7 @@
     stack_name: nexus
     portainer_endpoint_name: charger
     repositoryURL: "https://github.com/Buchtl/home-deployment.git"
-    repositoryReferenceName: "refs/heads/main"
+    repositoryReferenceName: "{{ git_default_branch }}"
     composeFile: "stacks/nexus-stack.yml"
     stack_env:
       - name: "USER_UID"
