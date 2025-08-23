@@ -17,10 +17,6 @@ services:
         constraints:
           - node.labels.nexus == true
 
-volumes:
-  db_data:
-    driver: local
-
 networks:
   home-net:
     external: true

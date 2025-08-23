@@ -1,8 +1,8 @@
 ---
-- name: Create /srv/jenins/data directory with specific ownership
+- name: Create /srv/jenkins/jenkins_home directory with specific ownership
   become: true
   file:
-    path: /srv/jenkins/data
+    path: /srv/jenkins/jenkins_home
     state: directory
     owner: "{{ home_user }}"
     group: "{{ home_user | default(home_user) }}"
