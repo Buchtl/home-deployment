@@ -27,5 +27,8 @@
             - targets: ["pi5b-1:9100"]
               labels:
                 nodename: "pi5b-1"
+            - targets: ["pi5b-2:9100"]
+              labels:
+                nodename: "pi5b-2"
 
     force: true

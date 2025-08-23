@@ -13,38 +13,39 @@
   tasks:
     - include_tasks: ../roles/swarm/tasks/join_node.yml
 
-- name: Label Postgres
-  hosts: swarm_manager
-  gather_facts: false
-  vars:
-    node_name: database
-    node_label: postgres
-  tasks:
-    - include_tasks: ../roles/swarm/tasks/label_node.yml
-
-- name: Label Postgres
-  hosts: swarm_manager
-  gather_facts: false
-  vars:
-    node_name: database
-    node_label: database
-  tasks:
-    - include_tasks: ../roles/swarm/tasks/label_node.yml
-
-- name: Label Nexus
-  hosts: swarm_manager
-  gather_facts: false
-  vars:
-    node_name: nexus
-    node_label: nexus
-  tasks:
-    - include_tasks: ../roles/swarm/tasks/label_node.yml
-
-- name: Label Jenkins
-  hosts: swarm_manager
-  gather_facts: false
-  vars:
-    node_name: jenkins
-    node_label: jenkins
-  tasks:
-    - include_tasks: ../roles/swarm/tasks/label_node.yml
+#- name: Label Postgres
+#  hosts: swarm_manager
+#  gather_facts: false
+#  vars:
+#    node_name: database
+#    node_label: postgres
+#  tasks:
+#    - include_tasks: ../roles/swarm/tasks/label_node.yml
+#
+#- name: Label Postgres
+#  hosts: swarm_manager
+#  gather_facts: false
+#  vars:
+#    node_name: database
+#    node_label: database
+#  tasks:
+#    - include_tasks: ../roles/swarm/tasks/label_node.yml
+#
+#- name: Label Nexus
+#  hosts: swarm_manager
+#  gather_facts: false
+#  vars:
+#    node_name: nexus
+#    node_label: nexus
+#  tasks:
+#    - include_tasks: ../roles/swarm/tasks/label_node.yml
+#
+#- name: Label Jenkins
+#  hosts: swarm_manager
+#  gather_facts: false
+#  vars:
+#    node_name: jenkins
+#    node_label: jenkins
+#  tasks:
+#    - include_tasks: ../roles/swarm/tasks/label_node.yml
+#

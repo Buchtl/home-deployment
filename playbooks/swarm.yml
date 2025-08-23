@@ -1,0 +1,49 @@
+---
+- hosts: swarm_manager
+  gather_facts: no
+  tasks:
+    - name: Get Docker node name (usually same as hostname)
+      command: hostname
+      register: node_name
+
+    - name: Label Docker Swarm node as manager
+      community.docker.docker_node:
+        hostname: "{{ node_name.stdout }}"
+        labels_state: replace
+        labels:
+          manager: "true"
+
+- name: Create secret for cert key
+  hosts: swarm_manager
+  vars:
+    secret_state: "present"
+    secret_name: "cert_key"
+    secret_value: "{{ cert_key }}"
+  tasks:
+    - name: Setup postgres docker secrets
+      include_role:
+        name: swarm
+        tasks_from: docker_secret
+
+- name: Create secret for cert
+  hosts: swarm_manager
+  vars:
+    secret_state: "present"
+    secret_name: "cert"
+    secret_value: "{{ cert }}"
+  tasks:
+    - name: Setup postgres docker secrets
+      include_role:
+        name: swarm
+        tasks_from: docker_secret
+
+- name: Create networks home-net
+  hosts: swarm_manager
+  vars:
+    network_name: "home-net"
+
+  tasks:
+    - name: Setup network "home-net"
+      include_role:
+        name: swarm
+        tasks_from: docker_network

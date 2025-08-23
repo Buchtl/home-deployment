@@ -1,0 +1,11 @@
+# Create docker networks.
+#
+# Expected variables:
+# - network_name:    (string) the network to create e.g. "charger-net"
+
+- name: Create Docker overlay network 'charger'
+  community.docker.docker_network:
+    name: "{{ network_name }}"
+    driver: overlay
+    scope: swarm
+    state: present
