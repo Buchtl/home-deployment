@@ -6,6 +6,7 @@ services:
     user: "${USER_UID}:${USER_GID}"
     environment:
       NEXUS_CONTEXT: "/"
+      JENKINS_OPTS: "--prefix=/jenkins"
     volumes:
        - /srv/jenkins/jenkins_home:/var/jenkins_home
        - /var/run/docker.sock:/var/run/docker.sock  # optional: if Jenkins needs to run docker
