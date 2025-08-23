@@ -34,4 +34,4 @@ secrets:
 
 networks:
   home-net:
-    driver: overlay
+    external: true
