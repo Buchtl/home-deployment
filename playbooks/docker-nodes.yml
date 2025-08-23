@@ -48,3 +48,12 @@
     node_label: jenkins
   tasks:
     - include_tasks: ../roles/swarm/tasks/label_node.yml
+
+- name: Label Jenkins
+  hosts: swarm_manager
+  gather_facts: false
+  vars:
+    node_name: swarm_manager
+    node_label: nginx
+  tasks:
+    - include_tasks: ../roles/swarm/tasks/label_node.yml

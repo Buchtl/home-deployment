@@ -1,0 +1,32 @@
+---
+- name: Remove existing nginx_config from Docker Swarm
+  community.docker.docker_config:
+    name: nginx_config
+    state: absent
+
+- name: Create Docker Swarm config from inline content
+  community.docker.docker_config:
+    name: nginx_config
+    data: |
+      events {}
+      http {
+        server {
+          listen 80;
+          server_name _;
+          return 301 https://$host$request_uri;
+        }
+      
+        server {
+          listen 443 ssl;
+          server_name jenkins.local;
+      
+          ssl_certificate     /run/secrets/cert;
+          ssl_certificate_key /run/secrets/cert_key;
+      
+          location / {
+            proxy_pass http://jenkins:80;
+          }
+        }
+      }
+
+    force: true
