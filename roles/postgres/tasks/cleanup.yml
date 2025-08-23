@@ -1,0 +1,5 @@
+---
+- name: Delete dir postgres
+  file:
+    path: "/srv/postgres"
+    state: absent

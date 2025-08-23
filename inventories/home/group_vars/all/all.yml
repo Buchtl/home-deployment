@@ -13,9 +13,9 @@ portainer_endpoint_name: charger
 
 
 # postgres
-#postgres_version: "17.5"
+postgres_version: "17.5"
 #postgres_host: "{{ hostvars[inventory_hostname].ansible_default_ipv4.address }}"
 postgres_host: "pi4b"
 
 # e.g. "refs/heads/main" or "refs/heads/refactor"
-git_default_branch: "refs/heads/database"
+git_default_branch: "refs/heads/jenkins"

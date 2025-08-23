@@ -1,0 +1,45 @@
+---
+- name: Create password secret for postgres
+  hosts: manager
+  vars:
+    secret_name: "postgres_password"
+    secret_value: "{{ postgres_admin_password }}"
+    secret_state: present
+  tasks:
+    - name: Setup postgres docker secrets
+      include_role:
+        name: swarm
+        tasks_from: docker_secret
+
+- name: Prepare database host for postgres
+  hosts: database
+  tasks:
+    - name: Setup postgres on host
+      include_role:
+        name: postgres
+        tasks_from: setup
+
+- name: Deploy stack postgres via Portainer API
+  hosts: localhost
+  vars:
+    "USER_UID": "{{ home_uid }}"
+    "USER_GID": "{{ home_gid }}"
+    stack_name: postgres
+    portainer_endpoint_name: charger
+    repositoryURL: "https://github.com/Buchtl/home-deployment.git"
+    repositoryReferenceName: "{{ git_default_branch }}"
+    composeFile: "stacks/postgres-stack.yml"
+    stack_env:
+      - name: "POSTGRES_VERSION"
+        value: "{{ postgres_version }}"
+      - name: "POSTGRES_USER"
+        value: "{{ postgres_admin_user }}"
+  tasks:
+    - include_tasks: ../roles/portainer/tasks/authenticate.yml
+    - include_tasks: ../roles/portainer/tasks/endpoint_id.yml
+    - include_tasks: ../roles/portainer/tasks/deploy_stack.yml
+
+- name: Await postgres ready
+  hosts: database
+  tasks:
+    - include_tasks: ../roles/postgres/tasks/await_ready.yml

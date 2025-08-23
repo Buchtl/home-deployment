@@ -1,0 +1,16 @@
+---
+- name: Wait for PostgreSQL port 5432 to be open
+  wait_for:
+    host: "{{ postgres_host }}"
+    port: 5432
+    delay: 5
+    timeout: 120
+    state: started
+- name: Wait until PostgreSQL is ready to accept connections
+  shell: |
+    container_id=$(docker ps --filter "name=postgres" --format "{{'{{'}}.ID{{'}}'}}" | head -n1)
+    docker exec "$container_id" pg_isready -U {{ postgres_admin_user }}
+  register: pg_ready_check
+  retries: 10
+  delay: 5
+  until: pg_ready_check.stdout is search("accepting connections")

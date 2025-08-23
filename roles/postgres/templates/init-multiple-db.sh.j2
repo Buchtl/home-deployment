@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+# Create extra databases
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname postgres <<-EOSQL
+    CREATE USER {{ postgres_home_user }} WITH PASSWORD '{{ postgres_home_password }}';
+    CREATE DATABASE {{ postgres_home_user }} OWNER {{ postgres_home_user }};
+    CREATE USER {{ postgres_keycloak_user }} WITH PASSWORD '{{ postgres_keycloak_password }}';
+    CREATE DATABASE {{ postgres_keycloak_user }} OWNER {{ postgres_keycloak_user }};
+EOSQL
