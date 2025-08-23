@@ -12,11 +12,11 @@
       
       http {
         # Max length of request line (e.g., GET /path?query=...)
-        large_client_header_buffers 8 64k;
+        #large_client_header_buffers 8 64k;
         # Increase buffer for large headers
-        proxy_buffers 16 64k;
-        proxy_buffer_size 128k;
-        proxy_busy_buffers_size 128k;
+        #proxy_buffers 16 64k;
+        #proxy_buffer_size 128k;
+        #proxy_busy_buffers_size 128k;
 
         # redirect all http -> https
         server {
