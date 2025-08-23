@@ -5,10 +5,10 @@ portainer_endpoint_name: charger
 #portainer_version: "2.32.0"
 
 # kecloak
-#keycloak_host: "{{ hostvars[inventory_hostname].ansible_default_ipv4.address }}"
+keycloak_host: "{{ hostvars['swarm_manager'].ansible_host }}"
 
 # grafana
-#grafana_host: "{{ hostvars[inventory_hostname].ansible_default_ipv4.address }}"
+grafana_host: "{{ hostvars['swarm_manager'].ansible_host }}"
 
 
 
@@ -18,4 +18,4 @@ postgres_version: "17.5"
 postgres_host: "pi4b"
 
 # e.g. "refs/heads/main" or "refs/heads/refactor"
-git_default_branch: "refs/heads/main"
+git_default_branch: "refs/heads/refactor"
