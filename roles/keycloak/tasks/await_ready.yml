@@ -1,0 +1,19 @@
+---
+# Create a docker secret.
+#
+# Expected variables:
+# - kc_hostname:    (string) Hostname Keycloak
+# - kc_port:        (string) Port Keyclooak
+#
+- name: Wait for Keycloak API to be available
+  uri:
+    validate_certs: false
+    url: "https://{{ kc_hostname }}:{{ kc_port }}/realms/master"
+    method: GET
+    status_code: 200
+    return_content: no
+  register: keycloak_check
+  until: keycloak_check.status == 200
+  retries: 50         # Retry up to 50 times -> pi is slow
+  delay: 5            # Wait 5 seconds between retries
+  ignore_errors: true  # Optional: in case of a failed first attempt

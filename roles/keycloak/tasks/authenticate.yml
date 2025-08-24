@@ -1,0 +1,18 @@
+- name: Get Keycloak access token
+  uri:
+    url: "https://{{ kc_hostname }}:{{ kc_port }}/realms/master/protocol/openid-connect/token"
+    method: POST
+    body_format: form-urlencoded
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    body:
+      client_id: admin-cli
+      grant_type: password
+      username: "{{ keycloak_admin_user }}"
+      password: "{{ keycloak_admin_password }}"
+    validate_certs: false
+  register: keycloak_auth_response
+
+- name: Set Keycloak token fact
+  set_fact:
+    keycloak_token: "{{ keycloak_auth_response.json.access_token }}"

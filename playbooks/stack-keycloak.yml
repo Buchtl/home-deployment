@@ -1,0 +1,46 @@
+---
+- name: Create database for keycloak
+  hosts: localhost
+  vars:
+    # New User
+    postgres_new_user: "{{ postgres_keycloak_user }}"
+    postgres_new_user_password: "{{ postgres_keycloak_password }}"
+    # DB with new user as owner
+    database_name: "{{ postgres_keycloak_user }}"
+    database_owner: "{{ postgres_keycloak_user }}"
+  tasks:
+    - include_tasks: ../roles/postgres/tasks/create_user.yml
+    - include_tasks: ../roles/postgres/tasks/create_database.yml
+
+- name: Deploy stack postgres via Portainer API
+  hosts: localhost
+  vars:
+    kc_hostname: "{{ keycloak_host }}"
+    kc_port: "10443"
+    stack_name: keycloak
+    portainer_endpoint_name: charger
+    repositoryURL: "https://github.com/Buchtl/charger-deployment.git"
+    repositoryReferenceName: "refs/heads/main"
+    composeFile: "stacks/keycloak-stack.yml"
+    stack_env:
+      - name: "KC_PORT"
+        value: "{{ kc_port }}"
+      - name: "KC_HOSTNAME"
+        value: "{{ keycloak_host }}"
+      - name: "KEYCLOAK_ADMIN"
+        value: "{{ keycloak_admin_user }}"
+      - name: "KEYCLOAK_ADMIN_PASSWORD"
+        value: "{{ keycloak_admin_password }}"
+      - name: "KC_DB"
+        value: "postgres"
+      - name: "KC_DB_URL"
+        value: "jdbc:postgresql://postgres:5432/keycloak"
+      - name: "KC_DB_USERNAME"
+        value: "{{ postgres_keycloak_user }}"
+      - name: "KC_DB_PASSWORD"
+        value: "{{ postgres_keycloak_password }}"
+
+  tasks:
+    - include_tasks: ../roles/portainer/tasks/authenticate.yml
+    - include_tasks: ../roles/portainer/tasks/endpoint_id.yml
+    - include_tasks: ../roles/portainer/tasks/deploy_stack.yml

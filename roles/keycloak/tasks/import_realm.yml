@@ -1,0 +1,12 @@
+---
+- name: Import full realm using Keycloak REST API
+  uri:
+    url: "https://{{ kc_hostname }}:{{ kc_port }}/admin/realms"
+    method: POST
+    headers:
+      Content-Type: "application/json"
+      Authorization: "Bearer {{ keycloak_token }}"
+    body: "{{ lookup('file', role_path + '/files/charger-realm-export.json') | from_json }}"
+    body_format: json
+    validate_certs: false
+    status_code: 201
