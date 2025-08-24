@@ -1,0 +1,14 @@
+---
+- name: Deploy realm charger to Keycloak
+  hosts: localhost
+  vars:
+    kc_hostname: "{{ keycloak_host }}"
+    kc_port: "10443"
+  tasks:
+    - include_tasks: ../roles/keycloak/tasks/await_ready.yml
+    - include_tasks: ../roles/keycloak/tasks/authenticate.yml
+    - name: Deploy realm
+      include_role:
+        name: keycloak
+        tasks_from: import_realm.yml
+    
