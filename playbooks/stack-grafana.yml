@@ -24,7 +24,7 @@
       - name: "GRAFANA_HOSTNAME"
         value: "pi4b"
       - name: "GRAFANA_PORT"
-        value: "443"
+        value: "12443"
       - name: "KC_CLIENT_SECRET_GRAFANA"
         value: "p4ZufcYZsDMzFejfjU8AKhlFWO1267M5"
       - name: "KC_HOSTNAME"
